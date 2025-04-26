@@ -3,8 +3,8 @@
   "private": true,
   "scripts": {
     "dev": "npm-run-all --parallel dev:*",
-    "dev:front": "cd front-end && npm run dev",
-    "dev:back": "cd back-end && npm run start"
+    "dev:front": "cd front-end && npm i && npm run dev",
+    "dev:back": "cd back-end && npm i && npm run start"
   },
   "devDependencies": {
     "npm-run-all": "^4.1.5"
