@@ -1,24 +1,23 @@
 import { DefaultSeoProps } from "next-seo";
 
 const description = ""
-const urlBase = ""
-const title = "Blong"
+const urlBase = "" // Cập nhật URL chính thức của website
+const title = "Counter Striker"
+
 // See https://www.npmjs.com/package/next-seo for more options
 const config: DefaultSeoProps = {
     // Page Title
-    titleTemplate: "%s | Personal Portfolio & Resume",
+    titleTemplate: "%s | Trang chủ",
     title,
-    defaultTitle: "Personal Portfolio & Resume ",
+    defaultTitle: "Trang chủ Counter Striker",
     canonical: `${urlBase}`,
     description,
     // Meta Tags
-
-
     openGraph: {
         type: 'website',
         locale: 'en_IE',
         url: `${urlBase}`,
-        title: 'Personal Portfolio & Resume',
+        title: 'Counter Striker',
         description,
         profile: {
             firstName: 'Le',
@@ -30,7 +29,7 @@ const config: DefaultSeoProps = {
             url: `${urlBase}/favicon/og-image.png`,
             width: 1200,
             height: 787,
-            alt: 'Og Image Alt',
+            alt: 'Counter Striker Og Image',
         }]
     },
     twitter: {
@@ -40,31 +39,31 @@ const config: DefaultSeoProps = {
     additionalLinkTags: [
         {
             rel: 'icon',
-            type: 'image/png',
-            href: '/favicon/32.png',
-            sizes: '32x32'
+            type: 'image/svg+xml',
+            href: '/favicon/32.svg',
+            sizes: '32x32',
         },
         {
             rel: 'icon',
-            type: 'image/png',
-            href: '/favicon/16.png',
-            sizes: '16x16'
+            type: 'image/svg+xml',
+            href: '/favicon/16.svg',
+            sizes: '16x16',
         },
         {
-            rel: "apple-touch-icon",
-            sizes: "180x180",
-            href: "/favicon/180.png"
+            rel: 'apple-touch-icon',
+            sizes: '180x180',
+            href: '/favicon/180.svg',
         },
         {
-            rel: "shortcut icon",
-            type: "image/png",
-            href: "/favicon/196.png"
+            rel: 'shortcut icon',
+            type: 'image/svg+xml',
+            href: '/favicon/196.svg',
         },
         {
-            rel: "manifest",
-            href: "/favicon/site.webmanifest"
-        }
-    ]
+            rel: 'manifest',
+            href: '/favicon/site.webmanifest',
+        },
+    ],
 };
 
 export default config;
