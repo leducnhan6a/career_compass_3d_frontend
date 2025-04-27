@@ -5,8 +5,6 @@ import type { NextRequest } from 'next/server'
 const protectedRoutes = [
     { path: '/authentication/logout', role: 'user' },
     { path: '/authentication/logout', role: 'admin' },
-    { path: '/authentication/register', role: 'user' },
-    { path: '/authentication/register', role: 'admin' },
     { path: '/dashboard', role: 'user' },
     { path: '/dashboard/edit', role: 'admin' },
     { path: '/dashboard/history', role: 'user' },

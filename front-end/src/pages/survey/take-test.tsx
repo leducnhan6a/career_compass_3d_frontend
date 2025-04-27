@@ -67,7 +67,30 @@ export default function TakeTestPage() {
                 await fetchPage(page)
             }
         }
-        fetchAllPages().finally(() => setLoading(false))
+        fetchAllPages().finally(() => {
+            // Sau khi tải hết câu hỏi, mới kiểm tra pending answers
+            const pending = localStorage.getItem('pendingAnswers')
+            if (pending) {
+                try {
+                    const parsed: Answer[] = JSON.parse(pending)
+                    const restoredAnswers: Record<number, number> = {}
+
+                    parsed.forEach((ans, idx) => {
+                        restoredAnswers[idx] = ans.value
+                    })
+
+                    setAnswers(restoredAnswers)
+                    console.log('Đã khôi phục đáp án từ localStorage')
+                    setTimeout(() => {
+                        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
+                    }, 300)
+                } catch (err) {
+                    console.error('Lỗi khi parse pendingAnswers:', err)
+                }
+            }
+
+            setLoading(false)
+        })
     }, [])
 
     const handleChange = (index: number, value: number) => {
@@ -196,12 +219,12 @@ export default function TakeTestPage() {
                     >
                         Nộp bài
                     </button>
-                    <button
+                    {/* <button
                         className="bg-gray-600 text-white px-6 py-3 rounded-full shadow hover:bg-gray-700 transition-all duration-200"
                         onClick={handleRandomize}
                     >
                         Random hóa câu trả lời
-                    </button>
+                    </button> */}
                 </div>
             )}
         </div>

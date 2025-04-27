@@ -57,7 +57,7 @@ export default function RegisterPage() {
                 onSubmit={handleSubmit}
                 className="bg-white p-6 rounded shadow-md w-full max-w-md space-y-4"
             >
-                <h2 className="text-2xl font-bold text-center">Register</h2>
+                <h2 className="text-2xl font-bold text-center">Đăng ký tài khoản</h2>
                 {error && <p className="text-red-500 text-sm">{error}</p>}
                 <input
                     type="email"
@@ -80,7 +80,7 @@ export default function RegisterPage() {
                 <input
                     type="text"
                     name="displayname"
-                    placeholder="Display Name"
+                    placeholder="Tên hiển thị"
                     value={form.displayname}
                     onChange={handleChange}
                     className="w-full p-2 border rounded"
@@ -102,17 +102,26 @@ export default function RegisterPage() {
                     className="w-full p-2 border rounded"
                     required
                 >
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
+                    <option value="male">Nam</option>
+                    <option value="female">Nữ</option>
+                    <option value="other">Khác</option>
                 </select>
                 <button
                     type="submit"
                     className={`w-full p-2 rounded ${loading ? 'bg-gray-400' : 'bg-blue-600'} text-white`}
                     disabled={loading}
                 >
-                    {loading ? 'Registering...' : 'Register'}
+                    {loading ? 'Đang tạo tài khoản...' : 'Đang ký'}
                 </button>
+
+                <button
+                    type="button"
+                    className="w-full p-2 rounded bg-green-600 text-white hover:bg-green-700 mt-2"
+                    onClick={() => router.push('./login')}
+                >
+                    Đăng nhập
+                </button>
+
             </form>
         </div>
     )
