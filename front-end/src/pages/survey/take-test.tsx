@@ -2,6 +2,10 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useCookies } from 'react-cookie'
 
+import { QuestionCard } from '@components/survey/QuestionCard'
+import { SurveyHeader } from '@components/survey/SurveyHeader'
+import { SurveyFooter } from '@components/survey/SurveyFooter'
+
 interface Question {
     question_code: string
     question_text: string
@@ -12,7 +16,7 @@ interface Answer {
     value: number
 }
 
-const COLOR_TAILWIND = {
+export const COLOR_TAILWIND = {
     1: {
         base: 'bg-red-100 border-red-400 text-red-700',
         selected: 'bg-red-500 border-red-700 text-white',
@@ -35,16 +39,16 @@ const COLOR_TAILWIND = {
     }
 } as const
 
+const LIMIT = 10
+const TOTAL_QUESTIONS = 60
+const TOTAL_PAGES = Math.round(TOTAL_QUESTIONS / LIMIT) as number
+
 export default function TakeTestPage() {
     const [questions, setQuestions] = useState<Question[]>([])
     const [answers, setAnswers] = useState<Record<number, number>>({})
     const [loading, setLoading] = useState(false)
     const router = useRouter()
     const [cookies] = useCookies(['userId'])
-
-    const LIMIT = 10
-    const TOTAL_QUESTIONS = 60
-    const TOTAL_PAGES = Math.round(TOTAL_QUESTIONS / LIMIT) as number
 
     const fetchPage = async (page: number) => {
         try {
@@ -68,7 +72,6 @@ export default function TakeTestPage() {
             }
         }
         fetchAllPages().finally(() => {
-            // Sau khi tải hết câu hỏi, mới kiểm tra pending answers
             const pending = localStorage.getItem('pendingAnswers')
             if (pending) {
                 try {
@@ -110,123 +113,57 @@ export default function TakeTestPage() {
     }
 
     const handleSubmit = async () => {
+        if (Object.keys(answers).length !== TOTAL_QUESTIONS) {
+            alert('Bạn cần hoàn thành tất cả các câu hỏi trước khi nộp bài.')
+            return
+        }
+
         const groupedAnswers: Answer[] = questions.map((q, idx) => ({
             group: q.question_code,
             value: answers[idx] || 0,
         }))
 
         localStorage.setItem('pendingAnswers', JSON.stringify(groupedAnswers))
+
         if (!cookies.userId) {
             alert('Bạn cần đăng nhập để tiếp tục. Đang chuyển hướng đến trang đăng ký...')
             router.push('/authentication/register')
             return
         }
-        router.push(`/survey/result`)
+
+        router.push(`/survey/results`)
     }
+
 
     const handleRandomize = () => {
         const randomAnswers: Record<number, number> = {}
         questions.forEach((_, index) => {
-            const randomValue = Math.floor(Math.random() * 5) + 1
-            randomAnswers[index] = randomValue
+            randomAnswers[index] = Math.floor(Math.random() * 5) + 1
         })
         setAnswers(randomAnswers)
     }
 
     return (
         <div className="max-w-4xl mx-auto p-8 space-y-10">
-            {/* Tiêu đề cố định */}
-            <div className="text-center space-y-3 sticky top-0 z-10 bg-white py-4 shadow-md">
-                <div className="w-full max-w-lg mx-auto">
-                    <div className="flex justify-between text-sm text-gray-600 mb-1">
-                        <span>
-                            Đã làm: {Object.keys(answers).length}/{questions.length}
-                        </span>
-                        <span>{Math.round((Object.keys(answers).length / questions.length) * 100)}%</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-3">
-                        <div
-                            className="bg-blue-600 h-3 rounded-full transition-all duration-300"
-                            style={{
-                                width: `${(Object.keys(answers).length / questions.length) * 100}%`,
-                            }}
-                        ></div>
-                    </div>
-                </div>
-
-                <h1 className="text-2xl font-semibold">
-                    Hãy chọn mức độ phản ánh đúng nhất về bạn cho mỗi câu sau
-                </h1>
-                <div className="flex justify-center gap-6 text-sm text-gray-700 mt-2">
-                    {[1, 2, 3, 4, 5].map((val) => {
-                        const color = COLOR_TAILWIND[val as keyof typeof COLOR_TAILWIND]
-                        return (
-                            <div key={val} className="text-center w-24">
-                                <div className={`w-5 h-5 mx-auto rounded-full border mb-1 ${color.base}`}></div>
-                                <p className="text-xs">
-                                    {['Rất không đồng ý', 'Không đồng ý', 'Trung lập', 'Đồng ý', 'Rất đồng ý'][val - 1]}
-                                </p>
-                            </div>
-                        )
-                    })}
-                </div>
-            </div>
+            <SurveyHeader progress={Object.keys(answers).length} totalQuestions={questions.length} />
 
             {loading && <p className="text-center text-gray-500">Đang tải câu hỏi...</p>}
             {!loading && questions.length === 0 && <p className="text-center text-red-500">Không có câu hỏi nào!</p>}
 
             <div className="space-y-6">
                 {questions.map((q, index) => (
-                    <div
+                    <QuestionCard
                         key={index}
-                        id={`question-${index}`}
-                        className="bg-white rounded-xl shadow-md p-6 space-y-4 border border-gray-100"
-                    >
-                        <p className="text-lg font-medium text-gray-800">{q.question_text}</p>
-                        <div className="flex justify-between gap-2">
-                            {[1, 2, 3, 4, 5].map((val) => {
-                                const selected = answers[index] === val
-                                const color = COLOR_TAILWIND[val as keyof typeof COLOR_TAILWIND]
-                                return (
-                                    <label key={val} className="flex flex-col items-center w-full group">
-                                        <input
-                                            type="radio"
-                                            name={`question-${index}`}
-                                            value={val}
-                                            checked={selected}
-                                            onChange={() => handleChange(index, val)}
-                                            className="sr-only"
-                                        />
-                                        <div
-                                            className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-150
-                                                ${selected ? color.selected : color.base}`}
-                                        >
-                                            {val}
-                                        </div>
-                                    </label>
-                                )
-                            })}
-                        </div>
-                    </div>
+                        index={index}
+                        question={q.question_text}
+                        selectedAnswer={answers[index] || 0}
+                        onAnswerSelect={handleChange}
+                        color={COLOR_TAILWIND}
+                    />
                 ))}
             </div>
 
-            {questions.length > 0 && (
-                <div className="text-center pt-6 space-y-4">
-                    <button
-                        className="bg-blue-600 text-white px-6 py-3 rounded-full shadow hover:bg-blue-700 transition-all duration-200"
-                        onClick={handleSubmit}
-                    >
-                        Nộp bài
-                    </button>
-                    {/* <button
-                        className="bg-gray-600 text-white px-6 py-3 rounded-full shadow hover:bg-gray-700 transition-all duration-200"
-                        onClick={handleRandomize}
-                    >
-                        Random hóa câu trả lời
-                    </button> */}
-                </div>
-            )}
+            <SurveyFooter onSubmit={handleSubmit} onRandomize={handleRandomize} />
         </div>
     )
 }

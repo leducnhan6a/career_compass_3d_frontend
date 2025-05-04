@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useCookies } from 'react-cookie'
 import { Pie } from 'react-chartjs-2'
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, CategoryScale, LinearScale } from 'chart.js'
-import ChartDataLabels from 'chartjs-plugin-datalabels'
+import ChartDataLabels, { Context } from 'chartjs-plugin-datalabels'
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale, LinearScale, ChartDataLabels)
 
@@ -17,9 +17,17 @@ interface Trait {
     score: number
     percentage: number
 }
+interface Major {
+    _id: string
+    uni_code: string
+    major_name: string
+    major_standard_score: number
+    major_aptitude_trends: string[]
+}
+
 
 const SurveyResultPage = () => {
-    const [cookies] = useCookies(['userId'])
+    const [cookies] = useCookies(['userId', 'token'])
     const [result, setResult] = useState<{
         hollandCode: string
         groupScores: Record<string, GroupScore>
@@ -28,6 +36,9 @@ const SurveyResultPage = () => {
         maxScore: number
         totalQuestions: number
     } | null>(null)
+    const [majors, setMajors] = useState<Major[]>([])
+    const [loadingMajors, setLoadingMajors] = useState(false)
+    const [errorMajors, setErrorMajors] = useState<string | null>(null)
     const router = useRouter()
 
     useEffect(() => {
@@ -35,25 +46,25 @@ const SurveyResultPage = () => {
 
         if (!storedAnswers) {
             alert('Không có kết quả khảo sát để hiển thị!')
-            router.push('/survey') // Chuyển hướng về trang khảo sát nếu không có kết quả
+            router.push('/survey')
             return
         }
 
         const answers = JSON.parse(storedAnswers)
 
-        // Giả sử bạn cần gửi kết quả đến API để tính toán mã Holland Code
         const calculateResult = async () => {
             try {
                 const res = await fetch('/api/v1/survey/result', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
                         userId: cookies.userId,
                         answers: answers
                     })
                 })
+
                 const data = await res.json()
 
                 if (res.ok && data.metadata) {
@@ -68,19 +79,43 @@ const SurveyResultPage = () => {
         }
 
         calculateResult()
-    }, [router])
+    }, [router, cookies.userId])
+
+    // Gọi API ngành học theo Holland Code
+    useEffect(() => {
+        const fetchMajors = async () => {
+            if (!result?.hollandCode) return
+
+            setLoadingMajors(true)
+            try {
+                const res = await fetch(`/api/v1/majors/aptitude?traits=${result.hollandCode}`)
+                const data = await res.json()
+
+                if (res.ok && Array.isArray(data.metadata?.fullMatched)) {
+                    setMajors(data.metadata.fullMatched)
+                } else {
+                    setErrorMajors(data.message || 'Không thể tải ngành học.')
+                }
+
+            } catch (err) {
+                console.error('Lỗi khi tải ngành học:', err)
+                setErrorMajors('Lỗi kết nối khi tải ngành học.')
+            } finally {
+                setLoadingMajors(false)
+            }
+        }
+
+        fetchMajors()
+    }, [result?.hollandCode])
 
     if (!result) {
-        return <div className="text-center">Đang tải kết quả...</div>
+        return <div className="text-center mt-20 text-gray-500">Đang tải kết quả...</div>
     }
 
-    // Data for Pie Chart
     const groupScoresData = Object.keys(result.groupScores).map(group => ({
         label: group,
-        score: result.groupScores[group]
+        score: result.groupScores[group].groupScore
     }))
-
-    console.log('Group Scores Data:', groupScoresData);
 
     const chartData = {
         labels: groupScoresData.map(data => data.label),
@@ -99,26 +134,29 @@ const SurveyResultPage = () => {
         plugins: {
             datalabels: {
                 color: '#fff',
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                formatter: (value: number, context: any) => {
-                    const total = context.chart._metasets[0].total
-                    const percentage = (value / total * 100).toFixed(2) + '%'
+                formatter: (value: number, context: unknown) => {
+                    const { chart } = context as Context
+                    const total = chart.data.datasets[0].data
+                        .filter((value): value is number => typeof value === 'number' && value !== null)
+                        .reduce((a: number, b: number) => a + b, 0)
+                    const percentage = ((value / total) * 100).toFixed(2) + '%'
                     return percentage
                 }
             }
         }
     }
 
-    // Phân tích Holland Code
     const hollandCodeAnalysis = {
         E: 'Enterprising (Lãnh đạo, thuyết phục và đạt được mục tiêu)',
         R: 'Realistic (Thực tế, thích làm việc với công cụ và thiết bị)',
         C: 'Conventional (Công việc có cấu trúc, quy trình và dữ liệu)',
+        I: 'Investigative (Phân tích, khám phá, tìm hiểu)',
+        A: 'Artistic (Sáng tạo, nghệ thuật, trực giác)',
+        S: 'Social (Giúp đỡ, giao tiếp, hợp tác)'
     }
 
-    // Function to download result as JSON
     const downloadResult = () => {
-        window.print();
+        window.print()
     }
 
     return (
@@ -158,10 +196,34 @@ const SurveyResultPage = () => {
                 </div>
             </div>
 
+            {loadingMajors && (
+                <div className="text-center text-gray-500 flex justify-center items-center gap-2">
+                    {/* <Loader2 className="animate-spin w-4 h-4" /> */}
+                    Đang tải danh sách ngành học phù hợp...
+                </div>
+            )}
 
+            {!loadingMajors && majors.length > 0 && (
+                <div className="text-center space-y-4">
+                    <h2 className="text-lg font-semibold text-gray-800">Ngành học phù hợp với Holland Code</h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-4xl mx-auto">
+                        {majors.map((major) => (
+                            <div key={major._id} className="bg-white p-4 rounded-md shadow border border-gray-100 text-left">
+                                <h3 className="text-md font-semibold text-blue-700">{major.major_name}</h3>
+                                <p className="text-sm text-gray-600">Trường: {major.uni_code}</p>
+                                <p className="text-sm text-gray-600">Điểm chuẩn: {major.major_standard_score}</p>
+                                <p className="text-sm text-gray-500">
+                                    Holland Code: <span className="font-medium">{major.major_aptitude_trends.join(', ')}</span>
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
 
-
-
+            {!loadingMajors && errorMajors && (
+                <p className="text-center text-sm text-red-500">{errorMajors}</p>
+            )}
 
             <div className="text-center">
                 <button

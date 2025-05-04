@@ -13,14 +13,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(401).json({ message: 'Unauthorized: Missing credentials' })
     }
 
-    const { answers } = req.body
+    const { group, question } = req.body
 
-    if (!Array.isArray(answers) || answers.some(a => typeof a.group !== 'string' || typeof a.value !== 'number')) {
-        return res.status(400).json({ message: 'Invalid answers format. Expected array of { group, value }' })
+    if (!group || !question || typeof group !== 'string' || typeof question !== 'string') {
+        return res.status(400).json({ message: 'Invalid request body. Required: group (R|I|A|S|E|C), question (string)' })
     }
 
     try {
-        const backendRes = await fetch(`${process.env.API_END_POINT}/api/v1/survey/result`, {
+        const backendRes = await fetch(`${process.env.API_END_POINT}/api/v1/survey/questions`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -29,8 +29,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 'x-client-id': userId,
             },
             body: JSON.stringify({
-                userId,
-                answers,
+                group,
+                question,
             }),
         })
 
@@ -40,9 +40,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             return res.status(backendRes.status).json(data)
         }
 
-        return res.status(200).json(data)
+        return res.status(201).json(data)
     } catch (err) {
-        console.error('Error processing survey result:', err)
+        console.error('Error creating question:', err)
         return res.status(500).json({ message: 'Internal Server Error' })
     }
 }

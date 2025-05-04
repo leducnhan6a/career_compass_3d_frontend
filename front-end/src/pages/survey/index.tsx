@@ -1,4 +1,3 @@
-// src/pages/survey/index.tsx
 import { useRouter } from 'next/router'
 
 export default function SurveyIndexPage() {
