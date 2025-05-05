@@ -9,6 +9,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     try {
         const url = new URL(`${process.env.API_END_POINT}/api/v1/survey/questionsSurvey`)
+        console.log('URL:', url.toString());
+
         url.searchParams.append('page', page.toString())
         url.searchParams.append('limit', limit.toString())
 

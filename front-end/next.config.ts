@@ -8,10 +8,6 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
-  experimental: {
-    // Dùng middleware trong Next.js
-    middleware: true,
-  },
   images: {
     domains: ['images.unsplash.com', 'cdn.pixabay.com'],
   },

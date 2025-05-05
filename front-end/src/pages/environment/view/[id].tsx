@@ -1,6 +1,9 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useRef } from 'react'
+// Extend JSX to recognize the 'model-viewer' element
+
+
 
 export default function EnvironmentModelPage() {
     const router = useRouter()
@@ -57,14 +60,23 @@ export default function EnvironmentModelPage() {
     return (
         <div className="max-w-5xl mx-auto p-6">
             <h1 className="text-2xl font-semibold mb-6 text-center">Trình xem mô hình 3D</h1>
-            <model-viewer
+
+
+            {/* <model-viewer
+                id="dimension"
+                {...props}
                 src={modelUrl}
-                alt="Mô hình 3D"
-                auto-rotate
+                alt={"Mô hình 3D"}
+                {...(animationOn ? { autoplay: true } : {})}
+                ar-scale="auto"
                 camera-controls
+                touch-action="pan-y"
+                auto-rotate
                 shadow-intensity="1"
+                ar-modes="webxr scene-viewer quick-look"
+                ar
                 style={{ width: '100%', height: '600px' }}
-            ></model-viewer>
+            ></model-viewer> */}
         </div>
     )
 }

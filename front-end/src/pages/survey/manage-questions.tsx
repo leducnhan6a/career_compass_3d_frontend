@@ -73,6 +73,7 @@ export default function ManageQuestions() {
             }
         } catch (err) {
             setCreateError('Lỗi khi tạo câu hỏi')
+            console.error(err)
         } finally {
             setCreating(false)
         }

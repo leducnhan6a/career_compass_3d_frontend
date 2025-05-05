@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 // front-end/src/pages/events/index.tsx
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
