@@ -5,6 +5,7 @@ import { useCookies } from 'react-cookie'
 import { QuestionCard } from '@components/survey/QuestionCard'
 import { SurveyHeader } from '@components/survey/SurveyHeader'
 import { SurveyFooter } from '@components/survey/SurveyFooter'
+import BackButton from '@components/UI/BackButton'
 
 interface Question {
     question_code: string
@@ -145,6 +146,8 @@ export default function TakeTestPage() {
 
     return (
         <div className="max-w-4xl mx-auto p-8 space-y-10">
+            <BackButton />
+
             <SurveyHeader progress={Object.keys(answers).length} totalQuestions={questions.length} />
 
             {loading && <p className="text-center text-gray-500">Đang tải câu hỏi...</p>}

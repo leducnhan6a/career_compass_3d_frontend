@@ -4,6 +4,7 @@ import { useCookies } from 'react-cookie'
 import { Pie } from 'react-chartjs-2'
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, CategoryScale, LinearScale } from 'chart.js'
 import ChartDataLabels, { Context } from 'chartjs-plugin-datalabels'
+import BackButton from '@components/UI/BackButton'
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale, LinearScale, ChartDataLabels)
 
@@ -161,6 +162,10 @@ const SurveyResultPage = () => {
 
     return (
         <div className="max-w-4xl mx-auto p-8 space-y-10">
+            <BackButton onClick={
+                result ? () => router.push('/') : undefined
+            } />
+
             <div className="text-center">
                 <h1 className="text-2xl font-semibold">Kết quả khảo sát</h1>
                 <p className="text-sm text-gray-500 mt-2">Holland Code: <span className="font-semibold">{result.hollandCode}</span></p>

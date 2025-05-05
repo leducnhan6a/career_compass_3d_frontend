@@ -3,7 +3,7 @@ interface SurveyFooterProps {
     onRandomize: () => void
 }
 
-export const SurveyFooter: React.FC<SurveyFooterProps> = ({ onSubmit, onRandomize }) => {
+export const SurveyFooter: React.FC<SurveyFooterProps> = ({ onSubmit }) => {
     return (
         <div className="text-center pt-6 space-y-4">
             <button
@@ -12,12 +12,12 @@ export const SurveyFooter: React.FC<SurveyFooterProps> = ({ onSubmit, onRandomiz
             >
                 Nộp bài
             </button>
-            <button
+            {/* <button
                 className="bg-gray-600 text-white px-6 py-3 rounded-full shadow hover:bg-gray-700 transition-all duration-200"
                 onClick={onRandomize}
             >
                 Random hóa câu trả lời
-            </button>
+            </button> */}
         </div>
     )
 }

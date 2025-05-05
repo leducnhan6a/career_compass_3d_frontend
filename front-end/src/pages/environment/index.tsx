@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
+import BackButton from '@components/UI/BackButton'
 
 interface Model3D {
     _id: string
@@ -45,6 +46,7 @@ export default function EnvironmentPage() {
 
     return (
         <div className="max-w-5xl mx-auto p-6">
+            <BackButton />
             <h1 className="text-3xl font-bold mb-6 text-center">Danh sách mô hình 3D</h1>
 
             {loading ? (
