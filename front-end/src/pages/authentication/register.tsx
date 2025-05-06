@@ -41,7 +41,8 @@ export default function RegisterPage() {
             setLoading(false)
 
             if (res.ok) {
-                router.push('./login')
+                
+                router.push('/')
             } else {
                 setError(data.message || 'Đã xảy ra lỗi khi đăng ký')
             }
