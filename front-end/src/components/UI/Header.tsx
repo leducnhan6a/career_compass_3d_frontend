@@ -32,13 +32,13 @@ export default function Header() {
 
                     <div className="hidden lg:flex gap-4 items-center">
                         <button
-                            className="px-6 py-2 bg-secondary hover:shadow-[0_10px_0] rounded-xl shadow-[0_4px_0] text-info"
+                            className="px-6 py-2 bg-secondary hover:shadow-[0_10px_0] transition-all rounded-xl shadow-[0_4px_0] text-info"
                             onClick={() => window.open('/survey', '_self')}
                         >
                             <p className="font-bold text-light whitespace-nowrap">Khảo sát ngay</p>
                         </button>
                         <button
-                            className="px-6 py-2 bg-primary hover:shadow-[0_10px_0] rounded-xl shadow-[0_4px_0] text-white"
+                            className="px-6 py-2 bg-primary hover:shadow-[0_10px_0] transition-all rounded-xl shadow-[0_4px_0] text-white"
                             onClick={() => window.open('/environment', '_self')}
                         >
                             <p className="font-bold whitespace-nowrap">Mô phỏng</p>
