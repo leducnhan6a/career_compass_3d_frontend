@@ -38,10 +38,10 @@ export default function Header() {
                             <p className="font-bold text-light whitespace-nowrap">Khảo sát ngay</p>
                         </button>
                         <button
-                            className="px-6 py-2 bg-primary hover:shadow-[0_10px_0] transition-all rounded-xl shadow-[0_4px_0] text-white"
+                            className="px-6 py-2 bg-accent hover:shadow-[0_10px_0] transition-all rounded-xl shadow-[0_4px_0] text-pink-500"
                             onClick={() => window.open('/environment', '_self')}
                         >
-                            <p className="font-bold whitespace-nowrap">Mô phỏng</p>
+                            <p className="font-bold text-light whitespace-nowrap">Mô phỏng</p>
                         </button>
                     </div>
                 </nav>

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import Button from '@components/UI/Button'
 
 export default function RegisterPage() {
     const router = useRouter()
@@ -55,9 +56,9 @@ export default function RegisterPage() {
         <div className="min-h-screen flex items-center justify-center bg-gray-50">
             <form
                 onSubmit={handleSubmit}
-                className="bg-white p-6 rounded shadow-md w-full max-w-md space-y-4"
+                className="bg-white p-6 rounded shadow-md w-full max-w-md"
             >
-                <h2 className="text-2xl font-bold text-center">Đăng ký tài khoản</h2>
+                <h2 className="text-2xl font-bold text-center mb-8">Đăng ký tài khoản</h2>
                 {error && <p className="text-red-500 text-sm">{error}</p>}
                 <input
                     type="email"
@@ -65,7 +66,7 @@ export default function RegisterPage() {
                     placeholder="Email"
                     value={form.email}
                     onChange={handleChange}
-                    className="w-full p-2 border rounded"
+                    className="w-full p-2 border rounded mb-4"
                     required
                 />
                 <input
@@ -74,7 +75,7 @@ export default function RegisterPage() {
                     placeholder="Username"
                     value={form.username}
                     onChange={handleChange}
-                    className="w-full p-2 border rounded"
+                    className="w-full p-2 border rounded mb-4"
                     required
                 />
                 <input
@@ -83,7 +84,7 @@ export default function RegisterPage() {
                     placeholder="Tên hiển thị"
                     value={form.displayname}
                     onChange={handleChange}
-                    className="w-full p-2 border rounded"
+                    className="w-full p-2 border rounded mb-4"
                     required
                 />
                 <input
@@ -92,35 +93,66 @@ export default function RegisterPage() {
                     placeholder="Password"
                     value={form.password}
                     onChange={handleChange}
-                    className="w-full p-2 border rounded"
+                    className="w-full p-2 border rounded mb-4"
                     required
                 />
-                <select
-                    name="gender"
-                    value={form.gender}
-                    onChange={handleChange}
-                    className="w-full p-2 border rounded"
-                    required
-                >
-                    <option value="male">Nam</option>
-                    <option value="female">Nữ</option>
-                    <option value="other">Khác</option>
-                </select>
-                <button
+                <div className="flex justify-around w-full gap-4 mb-8">
+                    <label className="flex items-center space-x-2 cursor-pointer px-4">
+                        <input
+                            type="radio"
+                            name="gender"
+                            value="male"
+                            checked={form.gender === "male"}
+                            onChange={handleChange}
+                            className="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500"
+                            required
+                        />
+                        <span className="text-gray-700">Nam</span>
+                    </label>
+                    <label className="flex items-center space-x-2 cursor-pointer px-8">
+                        <input
+                            type="radio"
+                            name="gender"
+                            value="female"
+                            checked={form.gender === "female"}
+                            onChange={handleChange}
+                            className="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500"
+                            required
+                        />
+                        <span className="text-gray-700">Nữ</span>
+                    </label>
+                    <label className="flex items-center space-x-2 cursor-pointer px-4">
+                        <input
+                            type="radio"
+                            name="gender"
+                            value="other"
+                            checked={form.gender === "other"}
+                            onChange={handleChange}
+                            className="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500"
+                            required
+                        />
+                        <span className="text-gray-700">Khác</span>
+                    </label>
+                </div>
+                {/* <button
                     type="submit"
                     className={`w-full p-2 rounded ${loading ? 'bg-gray-400' : 'bg-blue-600'} text-white`}
                     disabled={loading}
                 >
-                    {loading ? 'Đang tạo tài khoản...' : 'Đang ký'}
-                </button>
+                    {loading ? 'Đang tạo tài khoản...' : 'Đăng ký'}
+                </button> */}
 
-                <button
+                <Button variant="primary" className={`w-full p-2 rounded ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-sky-400'} text-white [&:disabled]:bg-gray-400 [&:disabled]:text-gray-200`} disabled={loading} label={loading ? 'Đang tạo tài khoản...' : 'Đăng ký'}></Button>
+
+                {/* <button
                     type="button"
                     className="w-full p-2 rounded bg-green-600 text-white hover:bg-green-700 mt-2"
                     onClick={() => router.push('./login')}
                 >
                     Đăng nhập
-                </button>
+                </button> */}
+
+                <Button variant="pink" className='w-full p-2 rounded text-white hover:bg-pink-500 mt-2' label='Đăng nhập' onClick={() => router.push('./login')}></Button>
 
             </form>
         </div>
