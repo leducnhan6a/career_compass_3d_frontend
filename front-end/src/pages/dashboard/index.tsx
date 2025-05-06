@@ -53,7 +53,6 @@ export default function AdminDashboard() {
                 </div>
                 <div
                     onClick={() => {
-                        setSelectedTab('edit');
                         router.push('/dashboard/edit');
                     }}
                     className={`px-6 py-2 bg-secondary hover:cursor-pointer hover:shadow-[0_10px_0] transition-all rounded-xl shadow-[0_4px_0] hover:-translate-y-1 text-info ${

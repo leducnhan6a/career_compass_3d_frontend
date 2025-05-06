@@ -85,7 +85,7 @@ const EventsIndex = () => {
                                         />
                                     </td>
                                     <td className="px-6 py-4">
-                                        <Link className="inline-block px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-colors"
+                                        <Link className="inline-block text-center px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-colors"
                                             href={article.url} target="_blank" rel="noopener noreferrer">
                                             Xem chi tiết
                                         </Link>
