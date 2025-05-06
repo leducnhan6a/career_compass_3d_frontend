@@ -34,7 +34,7 @@ export default function Button({
                 ${variantClass} ${className}`}
             onClick={onClick}
         >
-            <span>
+            <span className='text-white'>
                 {label}
             </span>
         </button>
