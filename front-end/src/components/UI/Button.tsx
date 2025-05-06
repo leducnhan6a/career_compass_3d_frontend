@@ -25,7 +25,7 @@ export default function Button({
     return (
         <button
             className={`px-6 py-2 font-bold text-nowrap 
-                hover:shadow-[0_10px_0] shadow-[0_4px_0] rounded-xl 
+                hover:shadow-[0_10px_0] transition-all shadow-[0_4px_0] rounded-xl 
                 ${variantClass} ${className}`}
             onClick={onClick}
         >
