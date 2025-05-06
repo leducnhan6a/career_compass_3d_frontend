@@ -13,7 +13,7 @@ const protectedRoutes = [
     // { path: '/survey', role: 'user' },
     // { path: '/survey/take-test', role: 'user' },
     { path: '/survey/result', role: 'user' },
-    { path: '/events/edit', role: 'admin' },
+    { path: '/events/edit', role: 'user' },
 ]
 
 // Middleware chính
