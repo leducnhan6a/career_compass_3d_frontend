@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import Button from '@components/UI/Button';
 
 export default function DeleteInfo() {
     const router = useRouter();
@@ -40,12 +41,8 @@ export default function DeleteInfo() {
         <div className="p-6">
             <h1 className="text-2xl font-bold text-red-600 mb-4">Xóa tài khoản</h1>
             <p className="mb-4">Bạn có chắc chắn muốn xóa tài khoản này không? Thao tác này không thể hoàn tác.</p>
-            <button
-                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
-                onClick={() => setShowModal(true)}
-            >
-                Xóa tài khoản
-            </button>
+
+            <Button variant='danger' label='Xóa tài khoản' onClick={() => setShowModal(true)}/>
 
             {/* Modal */}
             {showModal && (

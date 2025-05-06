@@ -6,8 +6,9 @@ export default function Edit() {
 
     const items = [
         { label: 'Chỉnh sửa câu hỏi khảo sát', route: '/survey/manage-questions' },
-        { label: 'Chỉnh sửa thông tin model', route: '/admin/edit/models' },
-        { label: 'Chỉnh sửa thông tin sự kiện', route: '/admin/edit/events' },
+        { label: 'Chỉnh sửa thông tin model', route: 'model/edit/models' },
+        { label: 'Chỉnh sửa thông tin sự kiện', route: 'events/edit' },
+        { label: 'Chỉnh sửa thông tin ngành', route: '/majors/edit' },
     ];
 
 

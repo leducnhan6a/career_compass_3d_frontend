@@ -10,6 +10,6 @@ export default function LogoutButton() {
         router.push('/login') // hoặc '/', tuỳ bạn
     }
     return (
-        <Button onClick={handleLogout} label='Đăng xuất' />
+        <Button variant='danger' onClick={handleLogout} label='Đăng xuất' />
     )
 }
