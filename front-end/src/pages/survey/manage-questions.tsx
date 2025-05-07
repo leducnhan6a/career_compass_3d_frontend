@@ -1,3 +1,4 @@
+import Button from '@components/UI/Button';
 import ConfirmDeleteModal from '@components/UI/ModelWarn';
 import { useEffect, useState } from 'react';
 
@@ -12,7 +13,7 @@ export default function ManageQuestions() {
     const [questions, setQuestions] = useState<Question[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [showModal, setShowModal] = useState(false)
+    const [showModal, setShowModal] = useState(false);
 
     const [newGroup, setNewGroup] = useState('');
     const [newQuestion, setNewQuestion] = useState('');
@@ -85,13 +86,13 @@ export default function ManageQuestions() {
     };
 
     const softDelete = async (id: string) => {
-        setShowModal(!showModal)
-        if (!confirm('Bạn có chắc muốn ẨN câu hỏi này?')) return
+        setShowModal(!showModal);
+        if (!confirm('Bạn có chắc muốn ẨN câu hỏi này?')) return;
         const res = await fetch(`/api/v1/survey/questions/${id}/delete`, {
             method: 'PATCH',
-        })
-        if (res.ok) fetchQuestions()
-    }
+        });
+        if (res.ok) fetchQuestions();
+    };
 
     const restoreQuestion = async (id: string) => {
         const res = await fetch(`/api/v1/survey/questions/${id}/restore`, {
@@ -179,7 +180,7 @@ export default function ManageQuestions() {
                                     q.isDeleted ? 'bg-gray-100 text-gray-500' : ''
                                 }`}
                             >
-                                <div className='max-w-[600px]'>
+                                <div className="max-w-[600px]">
                                     <p className="font-semibold">{q.question_text}</p>
                                     <p className="text-sm text-gray-500">Mã: {q.question_code}</p>
                                 </div>
@@ -192,13 +193,11 @@ export default function ManageQuestions() {
                                             >
                                                 Ẩn
                                             </button>
+
                                             <button
-                                                className="px-2 py-1 w-full bg-red-100 rounded hover:bg-red-200"
-                                                onClick={() => deletePermanently(q._id)}
+                                                onClick={() => alert('Coming soon')}
+                                                className="px-2 py-1 w-full bg-green-100 rounded hover:bg-green-200"
                                             >
-                                                Xóa
-                                            </button>
-                                            <button className="px-2 py-1 w-full bg-green-100 rounded hover:bg-green-200">
                                                 Cập nhật
                                             </button>
                                         </>
@@ -231,7 +230,7 @@ export default function ManageQuestions() {
                                     q.isDeleted ? 'bg-gray-100 text-gray-500' : ''
                                 }`}
                             >
-                                <div>
+                                <div className="max-w-[600px]">
                                     <p className="font-semibold">{q.question_text}</p>
                                     <p className="text-sm text-gray-500">Mã: {q.question_code}</p>
                                 </div>
@@ -239,18 +238,15 @@ export default function ManageQuestions() {
                                     {!q.isDeleted ? (
                                         <>
                                             <button
-                                                className="px-2 py-1 w-full bg-yellow-100 rounded hover:bg-yellow-200"
-                                                onClick={() => softDelete(q._id)}
-                                            >
-                                                Ẩn
-                                            </button>
-                                            <button
                                                 className="px-2 py-1 w-full bg-red-100 rounded hover:bg-red-200"
                                                 onClick={() => deletePermanently(q._id)}
                                             >
                                                 Xóa
                                             </button>
-                                            <button className="px-2 py-1 w-full bg-green-100 rounded hover:bg-green-200">
+                                            <button
+                                                className="px-2 py-1 w-full bg-green-100 rounded hover:bg-green-200"
+                                                onClick={() => alert('Coming soon')}
+                                            >
                                                 Cập nhật
                                             </button>
                                         </>
@@ -267,7 +263,6 @@ export default function ManageQuestions() {
                         ))}
                     </div>
                 ))}
-
         </div>
     );
 }

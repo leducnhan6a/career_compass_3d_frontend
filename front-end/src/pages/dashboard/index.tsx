@@ -29,7 +29,7 @@ export default function AdminDashboard() {
                 <Gear size={32} />
             </p>
 
-            <div className="flex flex-col gap-6 ">
+            <div className="w-[60vw] space-y-4 flex flex-col mx-auto">
                 {/* Menu bên trái */}
                 <div
                     onClick={() => alert('Coming soon')}
