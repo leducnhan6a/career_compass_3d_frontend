@@ -21,13 +21,12 @@ export default function ManageQuestions() {
     const [articleUrl, setArticleUrl] = useState('');
     const [imageUrl, setImageUrl] = useState('');
 
-
     const fetchQuestions = async () => {
         try {
             setLoading(true);
-            const res = await fetch(
-                `/api/v1/event`,
-            );
+            const res = await fetch(`/api/v1/event`, {
+                method: 'GET',
+            });
             const data = await res.json();
             if (res.ok && data.metadata) {
                 setQuestions(data.metadata);
@@ -133,60 +132,59 @@ export default function ManageQuestions() {
             {/* FORM TẠO sự kiện mới */}
             {selectedAction === 'create' && (
                 <form onSubmit={() => {}} className="space-y-4 p-4 border rounded bg-white shadow">
-                <h2 className="text-lg font-semibold">Tạo sự kiện mới</h2>
-            
-                <div className="flex flex-col gap-2">
-                    <label className="text-sm font-medium">Nguồn</label>
-                    <input
-                        value={source}
-                        onChange={(e) => setSource(e.target.value)}
-                        className="border p-2 rounded"
-                        required
-                    />
-                </div>
-            
-                <div className="flex flex-col gap-2">
-                    <label className="text-sm font-medium">Tiêu đề</label>
-                    <input
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        className="border p-2 rounded"
-                        required
-                    />
-                </div>
-            
-                <div className="flex flex-col gap-2">
-                    <label className="text-sm font-medium">URL bài viết</label>
-                    <input
-                        value={articleUrl}
-                        onChange={(e) => setArticleUrl(e.target.value)}
-                        type="url"
-                        className="border p-2 rounded"
-                        required
-                    />
-                </div>
-            
-                <div className="flex flex-col gap-2">
-                    <label className="text-sm font-medium">URL ảnh bài viết</label>
-                    <input
-                        value={imageUrl}
-                        onChange={(e) => setImageUrl(e.target.value)}
-                        type="url"
-                        className="border p-2 rounded"
-                    />
-                </div>
-            
-                {createError && <p className="text-red-500 text-sm">{createError}</p>}
-            
-                <button
-                    type="submit"
-                    disabled={creating}
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                >
-                    {creating ? 'Đang tạo...' : 'Tạo mới'}
-                </button>
-            </form>
-            
+                    <h2 className="text-lg font-semibold">Tạo sự kiện mới</h2>
+
+                    <div className="flex flex-col gap-2">
+                        <label className="text-sm font-medium">Nguồn</label>
+                        <input
+                            value={source}
+                            onChange={(e) => setSource(e.target.value)}
+                            className="border p-2 rounded"
+                            required
+                        />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                        <label className="text-sm font-medium">Tiêu đề</label>
+                        <input
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            className="border p-2 rounded"
+                            required
+                        />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                        <label className="text-sm font-medium">URL bài viết</label>
+                        <input
+                            value={articleUrl}
+                            onChange={(e) => setArticleUrl(e.target.value)}
+                            type="url"
+                            className="border p-2 rounded"
+                            required
+                        />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                        <label className="text-sm font-medium">URL ảnh bài viết</label>
+                        <input
+                            value={imageUrl}
+                            onChange={(e) => setImageUrl(e.target.value)}
+                            type="url"
+                            className="border p-2 rounded"
+                        />
+                    </div>
+
+                    {createError && <p className="text-red-500 text-sm">{createError}</p>}
+
+                    <button
+                        type="submit"
+                        disabled={creating}
+                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                    >
+                        {creating ? 'Đang tạo...' : 'Tạo mới'}
+                    </button>
+                </form>
             )}
 
             {/* DANH SÁCH CÂU HỎI */}
