@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import Button from '@components/UI/Button'
 
 export default function LoginPage() {
     const router = useRouter()
@@ -42,9 +43,9 @@ export default function LoginPage() {
         <div className="min-h-screen flex items-center justify-center bg-gray-50">
             <form
                 onSubmit={handleSubmit}
-                className="bg-white p-6 rounded shadow-md w-full max-w-md space-y-4"
+                className="bg-white p-6 rounded shadow-md w-full max-w-md"
             >
-                <h2 className="text-2xl font-bold text-center">Đăng nhập</h2>
+                <h2 className="text-2xl font-bold text-center mb-4">Đăng nhập</h2>
                 {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
                 <input
@@ -53,7 +54,7 @@ export default function LoginPage() {
                     placeholder="Username"
                     value={form.username}
                     onChange={handleChange}
-                    className="w-full p-2 border rounded"
+                    className="w-full p-2 border rounded mt-4"
                     required
                 />
                 <input
@@ -62,16 +63,18 @@ export default function LoginPage() {
                     placeholder="Password"
                     value={form.password}
                     onChange={handleChange}
-                    className="w-full p-2 border rounded"
+                    className="w-full p-2 border rounded mt-4"
                     required
                 />
-                <button
+                {/* <button
                     type="submit"
                     disabled={loading}
                     className={`w-full p-2 rounded text-white ${loading ? 'bg-gray-400' : 'bg-green-600 hover:bg-green-700'}`}
                 >
                     {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
-                </button>
+                </button> */}
+                <Button variant="pink" className='w-full p-2 rounded text-white hover:bg-pink-500 mt-8' label={loading ? 'Đang đăng nhập...' : 'Đăng nhập'}></Button>
+                
             </form>
         </div>
     )

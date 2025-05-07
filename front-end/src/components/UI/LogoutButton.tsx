@@ -7,9 +7,9 @@ export default function LogoutButton() {
 
     const handleLogout = async () => {
         await fetch('/api/logout')
-        router.push('/login') // hoặc '/', tuỳ bạn
+        router.push('/login')
     }
     return (
-        <Button onClick={handleLogout} label='Đăng xuất' />
+        <Button variant='danger' onClick={handleLogout} label='Đăng xuất' />
     )
 }

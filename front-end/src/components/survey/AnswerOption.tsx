@@ -9,7 +9,7 @@ interface AnswerOptionProps {
 
 export const AnswerOption: React.FC<AnswerOptionProps> = ({ value, selected, color, onSelect }) => {
     return (
-        <label className="flex flex-col items-center w-full group">
+        <label className={`flex flex-col items-center w-full group`}>
             <input
                 type="radio"
                 value={value}
@@ -18,7 +18,7 @@ export const AnswerOption: React.FC<AnswerOptionProps> = ({ value, selected, col
                 className="sr-only"
             />
             <div
-                className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-150
+                className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-150  hover:cursor-pointer
                     ${selected ? color[value as keyof typeof color].selected : color[value as keyof typeof color].base}`}
             >
                 {value}

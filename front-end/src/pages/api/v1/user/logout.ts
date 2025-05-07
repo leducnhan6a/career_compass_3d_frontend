@@ -32,7 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 }
 
                 // Xóa cookies sau khi logout
-                clearCookies(res, ['token', 'role', 'userId'])
+                clearCookies(res, ['token', 'role', 'userId', 'email', 'displayname'])
 
                 return sendResponse(res, 200, 'Logged out successfully')
             } catch (err) {
